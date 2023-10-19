@@ -1,7 +1,3 @@
-const COMMENT_ID = createRandomIdFromRange(1, 6);
-const PHOTO_ID = createRandomIdFromRange (1, 25);
-const PICTURE_ID = createRandomIdFromRange(1, 25);
-const LIKES_ID = createRandomIdFromRange(15, 200);
 const DESCRIPTION = [
   'Я эгоист, но при этот ответственный. Поэтому я не совершаю того, из-за чего будет кому-то плохо.',
   'Кто-то уйдет и бросит тебя, а кто-то встанет рядом и будет прикрывать от пуль. ',
@@ -14,6 +10,7 @@ const DESCRIPTION = [
   'Думай не о том, что я сказал, а о том, о чем решил промолчать.',
   'Даже если у вас есть голова, это совсем не означает наличие в ней мозга.',
 ];
+
 const MESSAGES = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
@@ -33,50 +30,33 @@ const getRandomInteger = (min, max) => {
   return Math.floor(result);
 };
 
-function createIdGenerator () {
+const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
+
+const createIdGenerator = () => {
   let lastGeneratedId = 0;
 
-  return function () {
+  return () => {
     lastGeneratedId += 1;
     return lastGeneratedId;
   };
-}
+};
 
 const generateCommentId = createIdGenerator();
 
-function createRandomIdFromRange (min, max) {
-  const previousValues = []; //здесь хранятся все созданные идентификаторы
-  return function () {
-    let currentValue = getRandomInteger(min, max); //получаем случайное целое число
-    if (previousValues.length >= (max - min + 1)) {
-      console.error(`Перебраны все числа из диапазона от ${ min } до ${ max}`);
-      return null;
-    }
-
-    while (previousValues.includes(currentValue)) { //проверяем на уникальность (includes возвращает true false)
-      currentValue = getRandomInteger(min, max);
-    }
-    previousValues.push(currentValue); //добавляем полученное случайное число в массив-хранилище идентификаторов
-
-    return currentValue; //возвращаем случайное целое число
-  };
-}
-
-const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
-
 const createComment = () => ({
   id: generateCommentId (),
-  avatar: `img/avatar-${COMMENT_ID()}.svg`,
+  avatar: `img/avatar-${getRandomInteger(1,6)}.svg`,
   message: getRandomArrayElement(MESSAGES),
   name: getRandomArrayElement(NAMES),
 });
 
-const createPhotoDescription = () => ({
-  id: PHOTO_ID(),
-  url: `photos/${PICTURE_ID()}.jpg`,
-  description: getRandomArrayElement(DESCRIPTION),
-  likes: LIKES_ID(),
-  comments: createComment(),
-});
+const generatePhotoId = createIdGenerator ();
 
-const photoDescription = Array.from({length: 25}, createPhotoDescription);
+const createPhotoDescription = () => ({
+  id: generatePhotoId (),
+  url: `photos/${getRandomInteger(1,25)}.jpg`,
+  description: getRandomArrayElement(DESCRIPTION),
+  likes: getRandomInteger(15, 200),
+  comments: Array.from({length: getRandomInteger(0, 30)}, createComment) });
+
+const getPictures = () => Array.from({length: 25}, createPhotoDescription);
