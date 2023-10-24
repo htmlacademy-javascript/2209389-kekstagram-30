@@ -13,3 +13,4 @@ const isPalindrome = (stringValue) => {
 };
 
 isPalindrome('алала');
+
