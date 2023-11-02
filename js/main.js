@@ -1,3 +1,5 @@
-import { renderPictures } from './render.js';
+import { renderPictures } from './render-thumbnails.js';
+renderPictures();
+import './render-big-picture.js';
 import { getPictures } from './data.js';
-renderPictures(getPictures);
+console.log(getPictures());
