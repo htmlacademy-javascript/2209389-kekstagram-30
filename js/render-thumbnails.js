@@ -10,10 +10,11 @@ const renderPictures = () => {
 //создаем фрагмент для вставки
   const pictureFragment = document.createDocumentFragment();
 
-  randomizedPictures.forEach(({url, description, likes, comments}) => {
+  randomizedPictures.forEach(({id, url, description, likes, comments}) => {
     //клон шаблона
     const pictureTemplateElement = pictureTemplate.cloneNode(true);
     pictureTemplateElement.querySelector('.picture__img').src = url;
+    pictureTemplateElement.querySelector('.picture__img').dataset.id = id;
     pictureTemplateElement.querySelector('.picture__img').alt = description;
     pictureTemplateElement.querySelector('.picture__likes').textContent = likes;
     pictureTemplateElement.querySelector('.picture__comments').textContent = comments.length;
@@ -29,4 +30,4 @@ const renderPictures = () => {
 
 
 
-export {renderPictures};
+export {renderPictures, randomizedPictures};

@@ -3,3 +3,5 @@ renderPictures();
 import './render-big-picture.js';
 import { getPictures } from './data.js';
 console.log(getPictures());
+
+
