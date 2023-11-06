@@ -21,11 +21,11 @@ function onDocumentKeydown (evt) {
   }
 }
 
-const renderPicture = ({ url, descriptipon, likes }) => {
+const renderPicture = ({ url, description, likes }) => {
   bigPictureElement.querySelector('.big-picture__img img').src = url;
-  bigPictureElement.querySelector('.big-picture__img img').alt = descriptipon;
+  bigPictureElement.querySelector('.big-picture__img img').alt = description;
   bigPictureElement.querySelector('.likes-count').textContent = likes;
-  bigPictureElement.querySelector('.social__caption').textContent = descriptipon;
+  bigPictureElement.querySelector('.social__caption').textContent = description;
 
 };
 //console.log(renderPicture());
