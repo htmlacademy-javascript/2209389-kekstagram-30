@@ -1,6 +1,13 @@
-import { getRandomArrayElement, createIdGenerator, getRandomInteger } from './util';
+import { getRandomArrayElement, createIdGenerator, getRandomInteger } from './util.js';
 
-const DESCRIPTION = [
+const PICTURE_COUNT = 25;
+const AVATAR_COUNT = 6;
+const LIKE_MIN_COUNT = 15;
+const LIKE_MAX_COUNT = 200;
+const COMMENT_COUNT = 20;
+
+
+const DESCRIPTIONS = [
   'Я эгоист, но при этот ответственный. Поэтому я не совершаю того, из-за чего будет кому-то плохо.',
   'Кто-то уйдет и бросит тебя, а кто-то встанет рядом и будет прикрывать от пуль. ',
   'Я так мало цепляюсь за жизнь, что совсем не боюсь смерти.',
@@ -28,20 +35,26 @@ const generateCommentId = createIdGenerator();
 
 const createComment = () => ({
   id: generateCommentId (),
-  avatar: `img/avatar-${getRandomInteger(1,6)}.svg`,
+  avatar: `img/avatar-${getRandomInteger(1, AVATAR_COUNT)}.svg`,
   message: getRandomArrayElement(MESSAGES),
   name: getRandomArrayElement(NAMES),
 });
 
-const generatePhotoId = createIdGenerator ();
 
-const createPhotoDescription = () => ({
-  id: generatePhotoId (),
-  url: `photos/${getRandomInteger(1,25)}.jpg`,
-  description: getRandomArrayElement(DESCRIPTION),
-  likes: getRandomInteger(15, 200),
-  comments: Array.from({length: getRandomInteger(0, 30)}, createComment) });
+const createPhotoDescription = (index) => ({
+  id: index,
+  url: `photos/${index}.jpg`,
+  description: getRandomArrayElement(DESCRIPTIONS),
+  likes: getRandomInteger(LIKE_MIN_COUNT, LIKE_MAX_COUNT),
+  comments: Array.from(
+    {length: getRandomInteger(0, COMMENT_COUNT) },
+    createComment,
+  ),
+});
 
-const getPictures = () => Array.from({length: 25}, createPhotoDescription);
+const getPictures = () => Array.from(
+  {length: PICTURE_COUNT},
+  (_, pictureIndex) => createPhotoDescription(pictureIndex + 1),
+);
 
 export {getPictures};
