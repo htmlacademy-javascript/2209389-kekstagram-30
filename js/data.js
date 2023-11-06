@@ -7,7 +7,7 @@ const LIKE_MAX_COUNT = 200;
 const COMMENT_COUNT = 20;
 
 
-const DESCRIPTION = [
+const DESCRIPTIONS = [
   'Я эгоист, но при этот ответственный. Поэтому я не совершаю того, из-за чего будет кому-то плохо.',
   'Кто-то уйдет и бросит тебя, а кто-то встанет рядом и будет прикрывать от пуль. ',
   'Я так мало цепляюсь за жизнь, что совсем не боюсь смерти.',
@@ -35,7 +35,7 @@ const generateCommentId = createIdGenerator();
 
 const createComment = () => ({
   id: generateCommentId (),
-  avatar: `img/avatar-${getRandomInteger(1,AVATAR_COUNT)}.svg`,
+  avatar: `img/avatar-${getRandomInteger(1, AVATAR_COUNT)}.svg`,
   message: getRandomArrayElement(MESSAGES),
   name: getRandomArrayElement(NAMES),
 });
@@ -44,7 +44,7 @@ const createComment = () => ({
 const createPhotoDescription = (index) => ({
   id: index,
   url: `photos/${index}.jpg`,
-  description: getRandomArrayElement(DESCRIPTION),
+  description: getRandomArrayElement(DESCRIPTIONS),
   likes: getRandomInteger(LIKE_MIN_COUNT, LIKE_MAX_COUNT),
   comments: Array.from(
     {length: getRandomInteger(0, COMMENT_COUNT) },
