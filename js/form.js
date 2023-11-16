@@ -20,6 +20,8 @@ const pristine = new Pristine(imageUploadForm, {
 
 //открытие и закрытие формы загрузки изображения
 
+document.addEventListener('keydown', onDocumentKeydown);
+
 const onImageUploadFieldChange = () => {
   imageEditorField.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
@@ -29,12 +31,13 @@ const showImageEditorForm = () => {
   imageUploadInput.addEventListener ('change', onImageUploadFieldChange);
 };
 
+
 const hideImageEditorForm = () => {
   imageUploadForm.reset();
   pristine.reset();
   imageEditorField.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
-  document.addEventListener('keydown', onDocumentKeydown);
+
 };
 
 function onDocumentKeydown (evt) {
@@ -105,11 +108,11 @@ imageUploadForm.addEventListener('submit', (evt) => {
   }
 });
 
-hashtagsTextInputField.addEventListener('focus', (evt) => {
+hashtagsTextInputField.addEventListener('keydown', (evt) => {
   evt.stopPropagation();
 });
 
-commentTextInputField.addEventListener('focus', (evt) => {
+commentTextInputField.addEventListener('keydown', (evt) => {
   evt.stopPropagation();
 });
 
