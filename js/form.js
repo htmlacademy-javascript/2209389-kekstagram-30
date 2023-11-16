@@ -4,8 +4,17 @@ const imageEditorField = document.querySelector('.img-upload__overlay');
 const bodyElement = document.querySelector('body');
 const imageUploadCancelButton = document.querySelector('.img-upload__cancel');
 
+const zoomOutPictureButton = document.querySelector('.scale__control--smaller');
+const zoomInPictureButton = document.querySelector('.scale__control--bigger');
+const currentPictureZoomValue = document.querySelector('.scale__control--value');
+const PICTURE_SCALE_STEP_VALUE = 25;
+const MIN_PICTURE_SCALE_VALUE = 25;
+const MAX_PICTURE_SCALE_VALUE = 100;
+const pictureScaleContainer = document.querySelector('.img-upload__scale,  scale');
+const picturePreviewElement = document.querySelector('.img-upload__preview img');
+
+
 const hashtagsTextInputField = document.querySelector('.text__hashtags');
-// const trimmedHashtagsText = hashtagsText.trim();
 const commentTextInputField = document.querySelector('.text__description');
 
 const hashtagRegularExpression = /^#[a-zа-яё0-9]{1,19}$/i;
@@ -113,5 +122,25 @@ commentTextInputField.addEventListener('focus', (evt) => {
   evt.stopPropagation();
 });
 
+// конец валидации хэштегов и комментария к фото
+
+const onPictureScaleContainerClick = (evt) => {
+  const currentValue = parseInt(currentPictureZoomValue.value, 10);
+
+  if (evt.target.closest ('.scale__control--smaller')) {
+    if(currentValue > MIN_PICTURE_SCALE_VALUE) {
+      currentPictureZoomValue.value = `${parseInt(currentPictureZoomValue.value, 10) - PICTURE_SCALE_STEP_VALUE}%`;
+      picturePreviewElement.style.transform = `scale(${currentPictureZoomValue.value})`;
+    }
+  } else if (evt.target.closest('.scale__control--bigger')) {
+    if (currentValue < MAX_PICTURE_SCALE_VALUE) {
+      currentPictureZoomValue.value = `${parseInt(currentPictureZoomValue.value, 10) + PICTURE_SCALE_STEP_VALUE}%`;
+      picturePreviewElement.style.transform = `scale(${currentPictureZoomValue.value})`;
+    }
+  }
+};
+
+
+pictureScaleContainer.addEventListener('click', onPictureScaleContainerClick);
 
 export {showImageEditorForm };
