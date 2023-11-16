@@ -41,7 +41,7 @@ const createComment = () => ({
 });
 
 
-const createPhotoDescription = (index) => ({
+const createPicture = (index) => ({
   id: index,
   url: `photos/${index}.jpg`,
   description: getRandomArrayElement(DESCRIPTIONS),
@@ -54,7 +54,7 @@ const createPhotoDescription = (index) => ({
 
 const getPictures = () => Array.from(
   {length: PICTURE_COUNT},
-  (_, pictureIndex) => createPhotoDescription(pictureIndex + 1),
+  (_, pictureIndex) => createPicture(pictureIndex + 1),
 );
 
 export {getPictures};

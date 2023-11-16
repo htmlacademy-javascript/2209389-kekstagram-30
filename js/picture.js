@@ -1,4 +1,4 @@
-const COMMENTS_COUNT_SHOWN = 5;
+const COMMENTS_COUNT_SHOW = 5;
 
 const bigPictureElement = document.querySelector('.big-picture');
 
@@ -27,7 +27,7 @@ const createComment = ({avatar, message, name}) => {
 };
 
 const renderComments = () => {
-  commentsCountShown += COMMENTS_COUNT_SHOWN;
+  commentsCountShown += COMMENTS_COUNT_SHOW;
 
   if (commentsCountShown >= comments.length) {
     commentsLoaderElement.classList.add('hidden');
