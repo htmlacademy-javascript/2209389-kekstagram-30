@@ -1,3 +1,4 @@
+import { hideSliderContainer} from './effects.js';
 // форма
 const imageUploadForm = document.querySelector('.img-upload__form');
 const imageUploadInput = document.querySelector('.img-upload__input');
@@ -28,46 +29,6 @@ const pristine = new Pristine(imageUploadForm, {
 });
 
 // эффекты
-const effectSliderContainer = document.querySelector('.img-upload__effect-level');
-const effectValue = document.querySelector('.effect-level__value');
-const effectSlider = document.querySelector('.effect-level__slider');
-const effectsList = document.querySelector('.effects__list');
-const pictureEffectChrome = document.querySelector('#effect-chrome');
-const pictureEffectSepia = document.querySelector('#effect-sepia');
-const pictureEffectMarvin = document.querySelector('#effect-marvin');
-const pictureEffectPhobos = document.querySelector('#effect-phobos');
-const pictureEffectHeat = document.querySelector('#effect-heat');
-const effectDefaultValue = document.querySelector('#effect-none');
-
-
-const hideSliderContainer = () => {
-  effectSliderContainer.classList.add('hidden');
-};
-
-const showSliderContainer = () => {
-  effectSliderContainer.classList.remove('hidden');
-};
-
-noUiSlider.create(effectSlider, {
-  range: {
-    min: 0,
-    max: 100,
-  },
-  start: 100,
-  step: 1,
-  connect: 'lower',
-  format: {
-    to: function (value) {
-      if (Number.isInteger(value)) {
-        return value.toFixed(0);
-      }
-      return value.toFixed(1);
-    },
-    from: function (value) {
-      return parseFloat(value);
-    },
-  },
-});
 
 // открытие и закрытие формы загрузки изображения:
 
@@ -191,93 +152,6 @@ pictureScaleContainer.addEventListener('click', onPictureScaleContainerClick);
 // конец блока изменения превью
 
 // эффекты для изображения
-
-const onEffectsListChange = (evt) => {
-  showSliderContainer();
-  // effectSliderContainer.classList.remove('hidden');
-  if (evt.target === pictureEffectChrome) {
-
-    effectSlider.noUiSlider.updateOptions ({
-      range: {
-        min: 0,
-        max: 1,
-      },
-      start: 1,
-      step: 0.1,
-
-    });
-    const onEffectSliderUpdate = () => {
-      effectValue.value = effectSlider.noUiSlider.get();
-      picturePreviewElement.style.filter = `grayscale(${effectValue.value})`;
-    };
-    effectSlider.noUiSlider.on('update', onEffectSliderUpdate);
-
-  } else if (evt.target === pictureEffectSepia) {
-
-    effectSlider.noUiSlider.updateOptions ({
-      range: {
-        min: 0,
-        max: 1,
-      },
-      start: 1,
-      step: 0.1,
-    });
-    const onEffectSliderUpdate = () => {
-      effectValue.value = effectSlider.noUiSlider.get();
-      picturePreviewElement.style.filter = `sepia(${effectValue.value})`;
-    };
-    effectSlider.noUiSlider.on('update', onEffectSliderUpdate);
-  } else if (evt.target === pictureEffectMarvin) {
-    effectSlider.noUiSlider.updateOptions ({
-      range: {
-        min: 0,
-        max: 100,
-      },
-      start: 100,
-      step: 1,
-    });
-    const onEffectSliderUpdate = () => {
-      effectValue.value = effectSlider.noUiSlider.get();
-      picturePreviewElement.style.filter = `invert(${effectValue.value}%)`;
-    };
-    effectSlider.noUiSlider.on('update', onEffectSliderUpdate);
-  } else if (evt.target === pictureEffectPhobos) {
-    effectSlider.noUiSlider.updateOptions ({
-      range: {
-        min: 0,
-        max: 3,
-      },
-      start: 3,
-      step: 0.1,
-    });
-    const onEffectSliderUpdate = () => {
-      effectValue.value = effectSlider.noUiSlider.get();
-      picturePreviewElement.style.filter = `blur(${effectValue.value}px)`;
-    };
-    effectSlider.noUiSlider.on('update', onEffectSliderUpdate);
-  } else if (evt.target === pictureEffectHeat) {
-    effectSlider.noUiSlider.updateOptions ({
-      range: {
-        min: 1,
-        max: 3,
-      },
-      start: 3,
-      step: 0.1,
-    });
-    const onEffectSliderUpdate = () => {
-      effectValue.value = effectSlider.noUiSlider.get();
-      picturePreviewElement.style.filter = `brightness(${effectValue.value})`;
-    };
-    effectSlider.noUiSlider.on('update', onEffectSliderUpdate);
-  } else if (evt.target === effectDefaultValue) {
-    picturePreviewElement.removeAttribute('style');
-    effectSliderContainer.classList.add('hidden');
-
-  }
-};
-
-
-effectsList.addEventListener('change', onEffectsListChange);
 
 
 export {showImageEditorForm };
