@@ -2,7 +2,6 @@ const bigPictureElement = document.querySelector('.big-picture');
 
 const commentsListElement = bigPictureElement.querySelector('.social__comments');
 const commentCountElement = bigPictureElement.querySelector('.social__comment-count');
-const totalCommentCountElement = bigPictureElement.querySelector('.social__comment-total-count');
 const commentsLoaderElement = bigPictureElement.querySelector('.comments-loader');
 
 const commentElement = document
@@ -34,6 +33,6 @@ const renderComments = (comments) => {
 const initCommentList = () => {
   commentCountElement.classList.add('hidden');
   commentsLoaderElement.classList.add('hidden');
-}
+};
 
 export { renderComments, initCommentList };
