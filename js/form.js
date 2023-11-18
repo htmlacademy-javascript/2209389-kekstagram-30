@@ -34,6 +34,8 @@ const pristine = new Pristine(imageUploadForm, {
 
 document.addEventListener('keydown', onDocumentKeydown);
 
+document.addEventListener('keydown', onDocumentKeydown);
+
 const onImageUploadFieldChange = () => {
   imageEditorField.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
@@ -43,6 +45,7 @@ const onImageUploadFieldChange = () => {
 const showImageEditorForm = () => {
   imageUploadInput.addEventListener ('change', onImageUploadFieldChange);
 };
+
 
 const hideImageEditorForm = () => {
   imageUploadForm.reset();
