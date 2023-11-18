@@ -1,30 +1,45 @@
+import { hideSliderContainer} from './effects.js';
+// форма
 const imageUploadForm = document.querySelector('.img-upload__form');
 const imageUploadInput = document.querySelector('.img-upload__input');
 const imageEditorField = document.querySelector('.img-upload__overlay');
 const bodyElement = document.querySelector('body');
 const imageUploadCancelButton = document.querySelector('.img-upload__cancel');
 
-const hashtagsTextInputField = document.querySelector('.text__hashtags');
-// const trimmedHashtagsText = hashtagsText.trim();
-const commentTextInputField = document.querySelector('.text__description');
+// изменение размера
 
+const currentPictureZoomValue = document.querySelector('.scale__control--value');
+const PICTURE_SCALE_STEP_VALUE = 25;
+const MIN_PICTURE_SCALE_VALUE = 25;
+const MAX_PICTURE_SCALE_VALUE = 100;
+const pictureScaleContainer = document.querySelector('.img-upload__scale,  scale');
+const picturePreviewElement = document.querySelector('.img-upload__preview img');
+
+// хэштеги и комментарии
+
+const hashtagsTextInputField = document.querySelector('.text__hashtags');
+const commentTextInputField = document.querySelector('.text__description');
 const hashtagRegularExpression = /^#[a-zа-яё0-9]{1,19}$/i;
 const MAX_HASHTAG_NUMBER = 5;
 const MAX_COMMENT_LENGTH = 140;
-
 const pristine = new Pristine(imageUploadForm, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
   errorTextClass: 'img-upload__field-wrapper--error'
 });
 
-//открытие и закрытие формы загрузки изображения
+// эффекты
+
+// открытие и закрытие формы загрузки изображения:
+
+document.addEventListener('keydown', onDocumentKeydown);
 
 document.addEventListener('keydown', onDocumentKeydown);
 
 const onImageUploadFieldChange = () => {
   imageEditorField.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
+  hideSliderContainer();
 };
 
 const showImageEditorForm = () => {
@@ -37,7 +52,6 @@ const hideImageEditorForm = () => {
   pristine.reset();
   imageEditorField.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
-
 };
 
 function onDocumentKeydown (evt) {
@@ -115,6 +129,32 @@ hashtagsTextInputField.addEventListener('keydown', (evt) => {
 commentTextInputField.addEventListener('keydown', (evt) => {
   evt.stopPropagation();
 });
+
+// конец валидации хэштегов и комментария к фото
+
+//  изменение размера превью
+
+const onPictureScaleContainerClick = (evt) => {
+  const currentValue = parseInt(currentPictureZoomValue.value, 10);
+
+  if (evt.target.closest ('.scale__control--smaller')) {
+    if(currentValue > MIN_PICTURE_SCALE_VALUE) {
+      currentPictureZoomValue.value = `${parseInt(currentPictureZoomValue.value, 10) - PICTURE_SCALE_STEP_VALUE}%`;
+      picturePreviewElement.style.transform = `scale(${currentPictureZoomValue.value})`;
+    }
+  } else if (evt.target.closest('.scale__control--bigger')) {
+    if (currentValue < MAX_PICTURE_SCALE_VALUE) {
+      currentPictureZoomValue.value = `${parseInt(currentPictureZoomValue.value, 10) + PICTURE_SCALE_STEP_VALUE}%`;
+      picturePreviewElement.style.transform = `scale(${currentPictureZoomValue.value})`;
+    }
+  }
+};
+
+pictureScaleContainer.addEventListener('click', onPictureScaleContainerClick);
+
+// конец блока изменения превью
+
+// эффекты для изображения
 
 
 export {showImageEditorForm };
