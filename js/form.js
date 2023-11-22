@@ -1,11 +1,14 @@
 import { hideSliderContainer} from './effects.js';
-// форма
-const imageUploadForm = document.querySelector('.img-upload__form');
-const imageUploadInput = document.querySelector('.img-upload__input');
-const imageEditorField = document.querySelector('.img-upload__overlay');
-const bodyElement = document.querySelector('body');
-const imageUploadCancelButton = document.querySelector('.img-upload__cancel');
+import { sendData } from './server.js';
+import {showUploadErrorAlert, showSuccessUploadMessage} from './util.js';
 
+// форма
+const bodyElement = document.querySelector('body');
+const imageUploadForm = document.querySelector('.img-upload__form');
+const imageUploadInput = imageUploadForm.querySelector('.img-upload__input');
+const imageEditorField = imageUploadForm.querySelector('.img-upload__overlay');
+const imageUploadCancelButton = imageUploadForm.querySelector('.img-upload__cancel');
+const submitButton = imageUploadForm.querySelector('.img-upload__submit');
 // изменение размера
 
 const currentPictureZoomValue = document.querySelector('.scale__control--value');
@@ -28,7 +31,15 @@ const pristine = new Pristine(imageUploadForm, {
   errorTextClass: 'img-upload__field-wrapper--error'
 });
 
-// эффекты
+// кнопка отправки формы
+const toggleSubmitButton = (isDisabled) => {
+  submitButton.disabled = isDisabled;
+  if (isDisabled) {
+    submitButton.textContent = 'Сведения отправляются';
+  } else {
+    submitButton.textContent = 'Опубликовать';
+  }
+};
 
 // открытие и закрытие формы загрузки изображения:
 
@@ -116,11 +127,23 @@ pristine.addValidator(
   `Длина комментария не может превышать ${MAX_COMMENT_LENGTH} символов`,
 );
 
-imageUploadForm.addEventListener('submit', (evt) => {
-  if (! pristine.validate()) {
+const setImageUploadFormSubmit = (onSuccess) => {
+  imageUploadForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-  }
-});
+    const formIsValid = pristine.validate();
+    if (formIsValid) {
+      toggleSubmitButton (true);
+      sendData(new FormData(evt.target))
+        .then(showSuccessUploadMessage)
+        .then(onSuccess)
+        .catch(() => {
+          toggleSubmitButton (false);
+          showUploadErrorAlert();
+        });
+    }
+  });
+};
+
 
 hashtagsTextInputField.addEventListener('keydown', (evt) => {
   evt.stopPropagation();
@@ -157,4 +180,4 @@ pictureScaleContainer.addEventListener('click', onPictureScaleContainerClick);
 // эффекты для изображения
 
 
-export {showImageEditorForm };
+export {showImageEditorForm, setImageUploadFormSubmit, hideImageEditorForm };

@@ -127,6 +127,10 @@ const onEffectsListChange = (evt) => {
   }
 };
 
+effectSlider.noUiSlider.on ('update', () => {
+  effectValue.setAttribute ('value', Number(effectSlider.noUiSlider.get(true)));
+});
+
 
 effectsList.addEventListener('change', onEffectsListChange);
 
