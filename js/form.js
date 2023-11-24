@@ -136,6 +136,7 @@ const setImageUploadFormSubmit = (onSuccess) => {
       sendData(new FormData(evt.target))
         .then(showSuccessUploadMessage)
         .then(onSuccess)
+        .then(()=> toggleSubmitButton(false))
         .catch(() => {
           toggleSubmitButton (false);
           showUploadErrorAlert();
