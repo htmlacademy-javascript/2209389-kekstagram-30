@@ -9,6 +9,7 @@ const imageUploadInput = imageUploadForm.querySelector('.img-upload__input');
 const imageEditorField = imageUploadForm.querySelector('.img-upload__overlay');
 const imageUploadCancelButton = imageUploadForm.querySelector('.img-upload__cancel');
 const submitButton = imageUploadForm.querySelector('.img-upload__submit');
+const effectsPreviews = imageUploadForm.querySelectorAll('.effects_preview');
 // изменение размера
 
 const currentPictureZoomValue = document.querySelector('.scale__control--value');
@@ -31,6 +32,8 @@ const pristine = new Pristine(imageUploadForm, {
   errorTextClass: 'img-upload__field-wrapper--error'
 });
 
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
+
 // кнопка отправки формы
 const toggleSubmitButton = (isDisabled) => {
   submitButton.disabled = isDisabled;
@@ -43,11 +46,24 @@ const toggleSubmitButton = (isDisabled) => {
 
 // открытие и закрытие формы загрузки изображения:
 
-document.addEventListener('keydown', onDocumentKeydown);
 
 document.addEventListener('keydown', onDocumentKeydown);
+
+const isValidType = (file) => {
+  const fileName = file.name.toLowerCase();
+  return FILE_TYPES.some((it) => fileName.endsWith(it));
+};
 
 const onImageUploadFieldChange = () => {
+  const file = imageUploadInput.files[0];
+
+  if (file && isValidType(file)) {
+    picturePreviewElement.src = URL.createObjectURL(file);
+    effectsPreviews.forEach((preview) => {
+      preview.style.backgroundImage = `url('${picturePreviewElement.src}')`;
+    });
+  }
+
   imageEditorField.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
   hideSliderContainer();
@@ -175,10 +191,6 @@ const onPictureScaleContainerClick = (evt) => {
 };
 
 pictureScaleContainer.addEventListener('click', onPictureScaleContainerClick);
-
-// конец блока изменения превью
-
-// эффекты для изображения
 
 
 export {showImageEditorForm, setImageUploadFormSubmit, hideImageEditorForm };
