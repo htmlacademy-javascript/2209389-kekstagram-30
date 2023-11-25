@@ -1,4 +1,5 @@
 import { showDownloadErrorAlert, showUploadErrorAlert } from './util';
+
 const SERVER_URL = 'https://30.javascript.pages.academy/kekstagram';
 const Route = {
   GET_DATA: '/data',
