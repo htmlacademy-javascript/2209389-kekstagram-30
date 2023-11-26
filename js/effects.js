@@ -1,3 +1,5 @@
+import { resetPictureZoomValue } from "./form";
+
 const pictureModalElement = document.querySelector('.img-upload');
 const picturePreviewElement = pictureModalElement.querySelector('.img-upload__preview img');
 const effectSliderContainer = pictureModalElement.querySelector('.img-upload__effect-level');
@@ -123,7 +125,7 @@ const onEffectsListChange = (evt) => {
   } else if (evt.target === effectDefaultValue) {
     picturePreviewElement.removeAttribute('style');
     effectSliderContainer.classList.add('hidden');
-
+    resetPictureZoomValue();
   }
 };
 
