@@ -9,7 +9,7 @@ const imageUploadInput = imageUploadForm.querySelector('.img-upload__input');
 const imageEditorField = imageUploadForm.querySelector('.img-upload__overlay');
 const imageUploadCancelButton = imageUploadForm.querySelector('.img-upload__cancel');
 const submitButton = imageUploadForm.querySelector('.img-upload__submit');
-const effectsPreviews = imageUploadForm.querySelectorAll('.effects_preview');
+const effectsPreviews = imageUploadForm.querySelectorAll('.effects__preview');
 // изменение размера
 
 const currentPictureZoomValue = document.querySelector('.scale__control--value');
@@ -18,6 +18,9 @@ const MIN_PICTURE_SCALE_VALUE = 25;
 const MAX_PICTURE_SCALE_VALUE = 100;
 const pictureScaleContainer = document.querySelector('.img-upload__scale,  scale');
 const picturePreviewElement = document.querySelector('.img-upload__preview img');
+const scaleControlReduceButton = document.querySelector('.scale__control--smaller');
+const scaleControlIncreaseButton = document.querySelector('.scale__control--bigger');
+
 
 // хэштеги и комментарии
 
@@ -26,13 +29,14 @@ const commentTextInputField = document.querySelector('.text__description');
 const hashtagRegularExpression = /^#[a-zа-яё0-9]{1,19}$/i;
 const MAX_HASHTAG_NUMBER = 5;
 const MAX_COMMENT_LENGTH = 140;
+
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
+
 const pristine = new Pristine(imageUploadForm, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
   errorTextClass: 'img-upload__field-wrapper--error'
 });
-
-const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
 // кнопка отправки формы
 const toggleSubmitButton = (isDisabled) => {
@@ -177,12 +181,12 @@ commentTextInputField.addEventListener('keydown', (evt) => {
 const onPictureScaleContainerClick = (evt) => {
   const currentValue = parseInt(currentPictureZoomValue.value, 10);
 
-  if (evt.target.closest ('.scale__control--smaller')) {
+  if (evt.target === scaleControlReduceButton) {
     if(currentValue > MIN_PICTURE_SCALE_VALUE) {
       currentPictureZoomValue.value = `${parseInt(currentPictureZoomValue.value, 10) - PICTURE_SCALE_STEP_VALUE}%`;
       picturePreviewElement.style.transform = `scale(${currentPictureZoomValue.value})`;
     }
-  } else if (evt.target.closest('.scale__control--bigger')) {
+  } else if (evt.target === scaleControlIncreaseButton) {
     if (currentValue < MAX_PICTURE_SCALE_VALUE) {
       currentPictureZoomValue.value = `${parseInt(currentPictureZoomValue.value, 10) + PICTURE_SCALE_STEP_VALUE}%`;
       picturePreviewElement.style.transform = `scale(${currentPictureZoomValue.value})`;
@@ -190,7 +194,11 @@ const onPictureScaleContainerClick = (evt) => {
   }
 };
 
+const resetPictureZoomValue = () => {
+  currentPictureZoomValue.value = `${parseInt(MAX_PICTURE_SCALE_VALUE, 10)}%`;
+};
+
 pictureScaleContainer.addEventListener('click', onPictureScaleContainerClick);
 
 
-export {showImageEditorForm, setImageUploadFormSubmit, hideImageEditorForm };
+export {showImageEditorForm, setImageUploadFormSubmit, hideImageEditorForm, resetPictureZoomValue };
