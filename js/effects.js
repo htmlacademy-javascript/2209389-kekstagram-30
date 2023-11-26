@@ -1,4 +1,4 @@
-import { resetPictureZoomValue } from "./form";
+import { resetPictureZoomValue } from './form';
 
 const pictureModalElement = document.querySelector('.img-upload');
 const picturePreviewElement = pictureModalElement.querySelector('.img-upload__preview img');
