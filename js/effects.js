@@ -24,6 +24,10 @@ const showSliderContainer = () => {
   effectSliderContainer.classList.remove('hidden');
 };
 
+const removePicturePreviewStyle = () => {
+  picturePreviewElement.removeAttribute('style');
+};
+
 noUiSlider.create(effectSlider, {
   range: {
     min: 0,
@@ -123,7 +127,7 @@ const onEffectsListChange = (evt) => {
     };
     effectSlider.noUiSlider.on('update', onEffectSliderUpdate);
   } else if (evt.target === effectDefaultValue) {
-    picturePreviewElement.removeAttribute('style');
+    removePicturePreviewStyle();
     effectSliderContainer.classList.add('hidden');
     resetPictureZoomValue();
   }
@@ -136,4 +140,4 @@ effectSlider.noUiSlider.on ('update', () => {
 
 effectsList.addEventListener('change', onEffectsListChange);
 
-export {hideSliderContainer};
+export {hideSliderContainer, removePicturePreviewStyle};

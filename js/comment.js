@@ -30,9 +30,9 @@ const renderComments = (comments) => {
   commentsListElement.append(fragment);
 };
 
-const initCommentList = () => {
+const initializeCommentList = () => {
   commentCountElement.classList.add('hidden');
   commentsLoaderElement.classList.add('hidden');
 };
 
-export { renderComments, initCommentList };
+export { renderComments, initializeCommentList };

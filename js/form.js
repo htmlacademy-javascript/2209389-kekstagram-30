@@ -1,8 +1,19 @@
-import { hideSliderContainer} from './effects.js';
+import { hideSliderContainer, removePicturePreviewStyle} from './effects.js';
 import { sendData } from './server.js';
 import {showUploadErrorAlert, showSuccessUploadMessage} from './util.js';
 
-// форма
+const HASHTAG_REGULAR_EXPRESSION = /^#[a-zа-яё0-9]{1,19}$/i;
+const MAX_HASHTAG_NUMBER = 5;
+const MAX_COMMENT_LENGTH = 140;
+
+const PICTURE_SCALE_STEP_VALUE = 25;
+const MIN_PICTURE_SCALE_VALUE = 25;
+const MAX_PICTURE_SCALE_VALUE = 100;
+const DEFAULT_SCALE_VALUE = 1;
+
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
+
+
 const bodyElement = document.querySelector('body');
 const imageUploadForm = document.querySelector('.img-upload__form');
 const imageUploadInput = imageUploadForm.querySelector('.img-upload__input');
@@ -10,27 +21,19 @@ const imageEditorField = imageUploadForm.querySelector('.img-upload__overlay');
 const imageUploadCancelButton = imageUploadForm.querySelector('.img-upload__cancel');
 const submitButton = imageUploadForm.querySelector('.img-upload__submit');
 const effectsPreviews = imageUploadForm.querySelectorAll('.effects__preview');
-// изменение размера
+
 
 const currentPictureZoomValue = document.querySelector('.scale__control--value');
-const PICTURE_SCALE_STEP_VALUE = 25;
-const MIN_PICTURE_SCALE_VALUE = 25;
-const MAX_PICTURE_SCALE_VALUE = 100;
+
 const pictureScaleContainer = document.querySelector('.img-upload__scale,  scale');
 const picturePreviewElement = document.querySelector('.img-upload__preview img');
 const scaleControlReduceButton = document.querySelector('.scale__control--smaller');
 const scaleControlIncreaseButton = document.querySelector('.scale__control--bigger');
 
 
-// хэштеги и комментарии
-
 const hashtagsTextInputField = document.querySelector('.text__hashtags');
 const commentTextInputField = document.querySelector('.text__description');
-const hashtagRegularExpression = /^#[a-zа-яё0-9]{1,19}$/i;
-const MAX_HASHTAG_NUMBER = 5;
-const MAX_COMMENT_LENGTH = 140;
 
-const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 
 const pristine = new Pristine(imageUploadForm, {
   classTo: 'img-upload__field-wrapper',
@@ -78,9 +81,11 @@ const showImageEditorForm = () => {
 };
 
 
-const hideImageEditorForm = () => {
+const onImageUploadCancelButtonClick = () => {
   imageUploadForm.reset();
   pristine.reset();
+  removePicturePreviewStyle();
+  picturePreviewElement.style.transform = `scale(${DEFAULT_SCALE_VALUE})`;
   imageEditorField.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
 };
@@ -88,33 +93,33 @@ const hideImageEditorForm = () => {
 function onDocumentKeydown (evt) {
   if (evt.key === 'Escape') {
     evt.preventDefault();
-    hideImageEditorForm ();
+    onImageUploadCancelButtonClick ();
   }
 }
 
-imageUploadCancelButton.addEventListener('click', hideImageEditorForm);
+imageUploadCancelButton.addEventListener('click', onImageUploadCancelButtonClick);
 
 // конец блока с открытием и закрытием формы загрузки изображения
 
 //валидация
 
-const normalizedHashtags = (hashtagString) => hashtagString
+const normalizeHashtags = (hashtagString) => hashtagString
   .trim()
   .split(' ')
   .filter((tag) => Boolean(tag.length));
 
 
-const validateHashtagLength = (value) => normalizedHashtags(value).length <= MAX_HASHTAG_NUMBER;
+const validateHashtagLength = (value) => normalizeHashtags(value).length <= MAX_HASHTAG_NUMBER;
 
 function validateCommentLenght (value) {
   return value.length <= MAX_COMMENT_LENGTH;
 }
 
 const validateHashtagText = (value) =>
-  normalizedHashtags(value).every((hashtag) => hashtagRegularExpression.test(hashtag));
+  normalizeHashtags(value).every((hashtag) => HASHTAG_REGULAR_EXPRESSION.test(hashtag));
 
 const validateHashtagUniqueness = (value) => {
-  const lowerCasedHashtags = normalizedHashtags(value).map((tag) => tag.toLowerCase());
+  const lowerCasedHashtags = normalizeHashtags(value).map((tag) => tag.toLowerCase());
   return lowerCasedHashtags.length === new Set(lowerCasedHashtags).size;
 };
 
@@ -201,4 +206,4 @@ const resetPictureZoomValue = () => {
 pictureScaleContainer.addEventListener('click', onPictureScaleContainerClick);
 
 
-export {showImageEditorForm, setImageUploadFormSubmit, hideImageEditorForm, resetPictureZoomValue };
+export {showImageEditorForm, setImageUploadFormSubmit, onImageUploadCancelButtonClick, resetPictureZoomValue };
