@@ -70,10 +70,8 @@ const showSuccessUploadMessage = () => {
 
 };
 
-//кнопка закрытия сообщения об удачной загрузке
-
-
 //сообщение об ошибке загрузки фотографий других пользователей
+
 const showDownloadErrorAlert = () => {
   const alertContainer = pictureDownloadErrorMessage.cloneNode(true);
   document.body.append(alertContainer);

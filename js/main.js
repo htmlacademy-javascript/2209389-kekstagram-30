@@ -1,4 +1,3 @@
-// import { getPictures } from './data.js';
 import { renderGallery } from './gallery.js';
 import { showImageEditorForm, setImageUploadFormSubmit, onImageUploadCancelButtonClick } from './form.js';
 import './server.js';
