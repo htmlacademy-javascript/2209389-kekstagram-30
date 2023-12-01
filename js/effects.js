@@ -28,6 +28,10 @@ const removePicturePreviewStyle = () => {
   picturePreviewElement.removeAttribute('style');
 };
 
+const removeEffectValue = () => {
+  effectValue.removeAttribute('value');
+};
+
 noUiSlider.create(effectSlider, {
   range: {
     min: 0,
@@ -51,7 +55,6 @@ noUiSlider.create(effectSlider, {
 
 const onEffectsListChange = (evt) => {
   showSliderContainer();
-  // effectSliderContainer.classList.remove('hidden');
   if (evt.target === pictureEffectChrome) {
 
     effectSlider.noUiSlider.updateOptions ({
@@ -130,6 +133,7 @@ const onEffectsListChange = (evt) => {
     removePicturePreviewStyle();
     effectSliderContainer.classList.add('hidden');
     resetPictureZoomValue();
+    removeEffectValue();
   }
 };
 
@@ -140,4 +144,4 @@ effectSlider.noUiSlider.on ('update', () => {
 
 effectsList.addEventListener('change', onEffectsListChange);
 
-export {hideSliderContainer, removePicturePreviewStyle};
+export {hideSliderContainer, removePicturePreviewStyle, removeEffectValue};

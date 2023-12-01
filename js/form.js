@@ -1,4 +1,4 @@
-import { hideSliderContainer, removePicturePreviewStyle} from './effects.js';
+import { hideSliderContainer, removeEffectValue, removePicturePreviewStyle} from './effects.js';
 import { sendData } from './server.js';
 import {showUploadErrorAlert, showSuccessUploadMessage} from './util.js';
 
@@ -42,6 +42,7 @@ const pristine = new Pristine(imageUploadForm, {
 });
 
 // кнопка отправки формы
+
 const toggleSubmitButton = (isDisabled) => {
   submitButton.disabled = isDisabled;
   if (isDisabled) {
@@ -88,6 +89,7 @@ const onImageUploadCancelButtonClick = () => {
   picturePreviewElement.style.transform = `scale(${DEFAULT_SCALE_VALUE})`;
   imageEditorField.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
+  removeEffectValue();
 };
 
 function onDocumentKeydown (evt) {
@@ -99,7 +101,6 @@ function onDocumentKeydown (evt) {
 
 imageUploadCancelButton.addEventListener('click', onImageUploadCancelButtonClick);
 
-// конец блока с открытием и закрытием формы загрузки изображения
 
 //валидация
 
@@ -178,8 +179,6 @@ hashtagsTextInputField.addEventListener('keydown', (evt) => {
 commentTextInputField.addEventListener('keydown', (evt) => {
   evt.stopPropagation();
 });
-
-// конец валидации хэштегов и комментария к фото
 
 //  изменение размера превью
 
