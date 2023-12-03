@@ -54,6 +54,9 @@ noUiSlider.create(effectSlider, {
 });
 
 const onEffectsListChange = (evt) => {
+  effectSlider.noUiSlider.on ('update', () => {
+    effectValue.setAttribute ('value', Number(effectSlider.noUiSlider.get(true)));
+  });
   showSliderContainer();
   if (evt.target === pictureEffectChrome) {
 
@@ -134,12 +137,9 @@ const onEffectsListChange = (evt) => {
     effectSliderContainer.classList.add('hidden');
     resetPictureZoomValue();
     removeEffectValue();
+    effectValue.value = '';
   }
 };
-
-effectSlider.noUiSlider.on ('update', () => {
-  effectValue.setAttribute ('value', Number(effectSlider.noUiSlider.get(true)));
-});
 
 
 effectsList.addEventListener('change', onEffectsListChange);
